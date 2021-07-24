@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="">
+    <title>SearchIt</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body{
+          background:cyan;
+          text-align:center;
+        }
+         #contain{
+          background:red;
+          width:500px;
+          text-align:center;
+          }
+          #searchbutton{
+          width:75px;
+          text-align:center;
+          }
+          #search{
+          width:200px;
+          }
+    </style>
+</head>
+<body>
+<center>
+    <div id="contain" class="container">
+        <img src="memory.png">
+        <h3>SearchIt</h3>
+        <form id="form" autocomplete="off">
+            <div class="form-group">
+                <span>
+                <center>
+         <input type="text" id="search" class="form-control" placeholder="Search">
+                </center>
+            </div>
+            <div class="form-group">
+                <center>
+                <button id="searchbutton" class="btn btn-success btn-block">Search</button>  <br>
+            </center>
+            </span>
+        </form>
+        <div id="result">
+        </div>
+    </div>
+</center>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $("#form").submit(function(e){
+    e.preventDefault()
+    var query = $("#search").val()
+    var API_KEY ="f85901bbd875656854473470caea8533"
+    let result=''
+    var url = 'http://api.serpstack.com/search?access_key='  + API_KEY + "&type=web&query=" +query
+    console.log(url);
+    $.get(url, function(data){
+        $("#result").html('')
+        console.log(data)
+        data.organic_results.forEach(res => {
+            result =`
+            <h1>${res.title}</h1><br><a target="_blank" href="${res.url}">${res.url}</a>
+            <p>${res.snippet}</p>
+            `
+            $("#result").append(result)
+        });
+    })
+})
+</script>
+</html>
